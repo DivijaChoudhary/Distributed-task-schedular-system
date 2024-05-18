@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+service SchedulerService {
+    rpc RegisterWorker (WorkerInfo) returns (RegisterReply);
+    rpc AssignTask (TaskRequest) returns (TaskResponse);
+    rpc Heartbeat (HeartbeatMessage) returns (HeartbeatReply);
+}
+
+message WorkerInfo {
+    string id = 1;
+    int32 total_capacity = 2;
+    int32 current_capacity = 3;
+}
+
+message RegisterReply {
+    string message = 1;
+    bool success = 2;
+}
+
+message TaskRequest {
+    string worker_id = 1;
+}
+
+message TaskResponse {
+    string task_id = 1;
+    repeated string commands = 2;
+    bool has_task = 3;
+}
+
+message TaskStatus {
+    string task_id = 1;
+    string status = 2;
+   
+}
+
+message HeartbeatMessage {
+    string worker_id = 1;
+    repeated TaskStatus tasks = 2;
+    int32 current_capacity = 3;
+}
+
+message HeartbeatReply {
+    string message = 1;
+    bool success = 2;
+}
